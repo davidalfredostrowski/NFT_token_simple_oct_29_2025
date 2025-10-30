@@ -1,0 +1,20 @@
+    async function callContractMethod() {
+        const accounts = await web3.eth.getAccounts();
+        const fromAccount = accounts[0]; // Or a specific account
+
+        try {
+            const estimatedGas = await myContract.methods.yourContractMethod(arg1, arg2)
+                .estimateGas({ from: fromAccount });
+
+            // You might want to add a buffer to the estimated gas for safety
+            const gasLimit = Math.floor(estimatedGas * 1.2); // Add 20% buffer
+
+            // Now, send the transaction with the estimated gas limit
+            const receipt = await myContract.methods.yourContractMethod(arg1, arg2)
+                .send({ from: fromAccount, gas: gasLimit });
+
+            console.log('Transaction receipt:', receipt);
+        } catch (error) {
+            console.error('Error estimating or sending transaction:', error);
+        }
+    }
