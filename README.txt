@@ -12,7 +12,7 @@ npm i @openzeppelin/contracts@4.5.0
 
 
 
-npx create-react-app hello
+npx create-react-app color
 cd hello
 
 
@@ -27,7 +27,7 @@ npx hardhat init
 # double check dns
 vi hardhat.config.js
 
-vi contracts/Hello.sol
+vi contracts/Color.sol
 
 # double check dns
 vi src/App.js
@@ -41,6 +41,49 @@ vi scripts/deploy.js
 
 /home/ubuntu/hello   npx hardhat node --hostname ec2-35-86-73-162.us-west-2.compute.amazonaws.com
 /home/ubuntu/hello npx   hardhat run scripts/deploy.js --network localhost
+
+# test from hardhat console
+
+npx hardhat console --network localhost
+Welcome to Node.js v14.21.3.
+
+Welcome to Node.js v22.17.1.
+Type ".help" for more information.
+> const signers = await ethers.getSigners();
+undefined
+> const contract =  await ethers.getContractFactory("Color")
+undefined
+> const cd = await contract.deploy()
+undefined
+>  const [deployer] = await ethers.getSigners();
+undefined
+> await cd.mint("#FFFFFF")
+> const junk = await cd.colors(0)
+Uncaught SyntaxError: Identifier 'junk' has already been declared
+> const junk2 = await cd.colors(0)
+undefined
+> junk2
+'#FFFFFF'
+> junk(0)
+Promise {
+  <pending>,
+  [Symbol(async_id_symbol)]: 5420,
+  [Symbol(trigger_async_id_symbol)]: 14
+}
+> await junk(0)
+'#FFFFFF'
+>
+
+
+
+
+### perform assertion testing
+
+ubuntu@ip-172-31-26-110:~/helloWorld$ npx hardhat test
+
+
+
+
 
 /home/ubuntu/hello npm start   
 
@@ -84,4 +127,5 @@ https://www.google.com/search?q=how+to+set+gasEstimate+for+solidity+smart+contra
 
 
 https://github.com/dappuniversity/nft_marketplace/blob/main/src/backend/test/NFTMarketplace.test.js
+
 
